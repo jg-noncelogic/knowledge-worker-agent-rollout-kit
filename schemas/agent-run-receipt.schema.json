@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jg-noncelogic/knowledge-worker-agent-rollout-kit/schemas/agent-run-receipt.schema.json",
+  "title": "Knowledge-worker agent run receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["run_id", "started_at", "completed_at", "workflow", "rung", "actor", "inputs", "actions", "outputs", "evidence", "outcome", "review"],
+  "properties": {
+    "run_id": {"type": "string", "minLength": 1},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "workflow": {"type": "string", "minLength": 1},
+    "rung": {"type": "integer", "minimum": 0, "maximum": 4},
+    "actor": {"type": "string", "minLength": 1},
+    "inputs": {"type": "array", "items": {"type": "string"}},
+    "actions": {"type": "array", "items": {"type": "string"}},
+    "outputs": {"type": "array", "items": {"type": "string"}},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "outcome": {"enum": ["completed", "failed", "stopped"]},
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewer", "edit_minutes", "unsupported_claims", "reversal", "notes"],
+      "properties": {
+        "status": {"enum": ["pending", "accepted", "edited", "rejected"]},
+        "reviewer": {"type": ["string", "null"]},
+        "edit_minutes": {"type": ["number", "null"], "minimum": 0},
+        "unsupported_claims": {"type": "integer", "minimum": 0},
+        "reversal": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

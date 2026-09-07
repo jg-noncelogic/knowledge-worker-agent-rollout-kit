@@ -1,0 +1,21 @@
+{
+  "run_id": "brief-2026-09-07-001",
+  "started_at": "2026-09-07T09:00:00Z",
+  "completed_at": "2026-09-07T09:03:12Z",
+  "workflow": "Draft a weekly project brief from approved notes",
+  "rung": 1,
+  "actor": "internal-brief-agent",
+  "inputs": ["notes/week-36.md"],
+  "actions": ["Read approved notes", "Drafted brief", "Linked each status statement to a note"],
+  "outputs": ["drafts/week-36-brief.md"],
+  "evidence": ["notes/week-36.md#decisions", "notes/week-36.md#risks"],
+  "outcome": "completed",
+  "review": {
+    "status": "edited",
+    "reviewer": "workflow-owner",
+    "edit_minutes": 4.5,
+    "unsupported_claims": 0,
+    "reversal": false,
+    "notes": "Reordered two sections; facts were supported."
+  }
+}
