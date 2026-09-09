@@ -24,11 +24,36 @@
       "properties": {
         "status": {"enum": ["pending", "accepted", "edited", "rejected"]},
         "reviewer": {"type": ["string", "null"]},
+        "measurement_mode": {"enum": ["exact", "rounded", "bucketed", "unassessed"]},
         "edit_minutes": {"type": ["number", "null"], "minimum": 0},
+        "edit_minutes_bucket": {"enum": ["0", "1-5", "6-15", "16-30", "31+", null]},
+        "voluntary_reuse": {"type": ["boolean", "null"]},
         "unsupported_claims": {"type": "integer", "minimum": 0},
         "reversal": {"type": "boolean"},
         "notes": {"type": "string"}
-      }
+      },
+      "allOf": [
+        {
+          "if": {"required": ["measurement_mode"], "properties": {"status": {"const": "pending"}}},
+          "then": {"properties": {"edit_minutes": {"const": null}, "edit_minutes_bucket": {"const": null}, "voluntary_reuse": {"const": null}}}
+        },
+        {
+          "if": {"required": ["measurement_mode"], "properties": {"measurement_mode": {"enum": ["exact", "rounded"]}, "status": {"not": {"const": "pending"}}}},
+          "then": {"properties": {"edit_minutes": {"type": "number", "minimum": 0}, "edit_minutes_bucket": {"const": null}}}
+        },
+        {
+          "if": {"required": ["measurement_mode"], "properties": {"measurement_mode": {"const": "rounded"}, "status": {"not": {"const": "pending"}}}},
+          "then": {"properties": {"edit_minutes": {"type": "number", "minimum": 0, "multipleOf": 5}}}
+        },
+        {
+          "if": {"required": ["measurement_mode"], "properties": {"measurement_mode": {"const": "bucketed"}, "status": {"not": {"const": "pending"}}}},
+          "then": {"required": ["edit_minutes_bucket"], "properties": {"edit_minutes": {"const": null}, "edit_minutes_bucket": {"enum": ["0", "1-5", "6-15", "16-30", "31+"]}}}
+        },
+        {
+          "if": {"required": ["measurement_mode"], "properties": {"measurement_mode": {"const": "unassessed"}}},
+          "then": {"properties": {"edit_minutes": {"const": null}, "edit_minutes_bucket": {"const": null}}}
+        }
+      ]
     }
   }
 }

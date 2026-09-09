@@ -53,6 +53,25 @@ Track these per run in [`templates/pilot-scorecard.csv`](templates/pilot-scoreca
 
 Primary success signal: median edit minutes improve against the baseline while useful-output rate stays above the predeclared threshold.
 
+### Collect reviewer effort without collecting reviewer content
+
+Use the least detailed measurement that can answer the pilot decision. A content-blind rollout does not need prompts, outputs, reviewer notes, or a stable person identifier in its aggregate report.
+
+Choose one `measurement_mode` before the pilot:
+
+| Mode | Store per run | Use when |
+|---|---|---|
+| `exact` | active edit minutes | Reviewers already track time and the sample is large enough to aggregate safely |
+| `rounded` | active edit minutes rounded to the nearest 5 minutes | Exact duration is unnecessarily identifying |
+| `bucketed` | one of `0`, `1-5`, `6-15`, `16-30`, `31+` | Only the effort band is needed; report distributions, not a median |
+| `unassessed` | `null` | Collection would be unreliable or too sensitive |
+
+For voluntary reuse, store `true`, `false`, or `null`. A run receipt alone cannot show that someone declined to reuse the workflow. Register each eligible follow-up in [`templates/reuse-opportunities.csv`](templates/reuse-opportunities.csv): `reused` links to a new run, `declined` records an observed choice not to run it, and `unobserved` preserves missingness. Use a bounded cohort label or leave it blank instead of exporting a stable person identifier.
+
+Keep the detailed run receipt under the team's normal access and retention controls. Publish only a bounded aggregate with the observation window, eligible-opportunity denominator, attempted-run denominator, assessed-run denominator, useful-output counts, edit-effort distribution, reuse counts, and explicit missingness. Suppress small groups according to the team's privacy policy. [`templates/content-blind-aggregate.json`](templates/content-blind-aggregate.json) structurally excludes run IDs, timestamps, reviewer identity, file paths, and notes; validate a populated copy with `python3 scripts/validate_aggregate.py FILE.json`. The sample aggregate shows the required count reconciliations.
+
+`edit_minutes` measures human reviewer effort. It is not model, energy, infrastructure, or total economic cost. Keep those claims unknown until separately measured and calibrated.
+
 ## Stop rules
 
 Stop or step down a rung when any of these occurs:
@@ -72,9 +91,10 @@ Validate the included example:
 
 ```bash
 python3 scripts/validate_receipt.py examples/sample-receipt.json
+python3 scripts/validate_aggregate.py examples/sample-content-blind-aggregate.json
 ```
 
-The validator is Python standard-library only. The JSON Schema in [`schemas/agent-run-receipt.schema.json`](schemas/agent-run-receipt.schema.json) can be used by systems that already support JSON Schema Draft 2020-12.
+The validators are Python standard-library only. The JSON Schemas in [`schemas/`](schemas/) can be used by systems that already support JSON Schema Draft 2020-12. Existing receipt fields remain valid; the privacy-aware measurement fields are optional for backward compatibility and enforced when present.
 
 ## Decision rule
 

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jg-noncelogic/knowledge-worker-agent-rollout-kit/schemas/content-blind-aggregate.schema.json",
+  "title": "Content-blind rollout aggregate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["from", "through_exclusive", "workflow", "eligible_opportunities", "attempted_runs", "assessed_usefulness_runs", "usefulness", "edit_effort", "reuse", "missingness", "small_group_suppression_threshold"],
+  "properties": {
+    "from": {"type": "string", "format": "date-time"},
+    "through_exclusive": {"type": "string", "format": "date-time"},
+    "workflow": {"type": "string", "minLength": 1},
+    "eligible_opportunities": {"type": "integer", "minimum": 0},
+    "attempted_runs": {"type": "integer", "minimum": 0},
+    "assessed_usefulness_runs": {"type": "integer", "minimum": 0},
+    "usefulness": {
+      "type": "object", "additionalProperties": false,
+      "required": ["accepted", "edited", "rejected"],
+      "properties": {"accepted": {"type": "integer", "minimum": 0}, "edited": {"type": "integer", "minimum": 0}, "rejected": {"type": "integer", "minimum": 0}}
+    },
+    "edit_effort": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mode", "assessed_runs", "distribution"],
+      "properties": {
+        "mode": {"enum": ["exact", "rounded", "bucketed", "unassessed"]},
+        "assessed_runs": {"type": "integer", "minimum": 0},
+        "distribution": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "0": {"type": "integer", "minimum": 0},
+            "1-5": {"type": "integer", "minimum": 0},
+            "6-15": {"type": "integer", "minimum": 0},
+            "16-30": {"type": "integer", "minimum": 0},
+            "31+": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "reuse": {
+      "type": "object", "additionalProperties": false,
+      "required": ["eligible_followups", "reused", "declined", "unobserved"],
+      "properties": {"eligible_followups": {"type": "integer", "minimum": 0}, "reused": {"type": "integer", "minimum": 0}, "declined": {"type": "integer", "minimum": 0}, "unobserved": {"type": "integer", "minimum": 0}}
+    },
+    "missingness": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pending_reviews", "unassessed_edit_effort", "unobserved_reuse"],
+      "properties": {"pending_reviews": {"type": "integer", "minimum": 0}, "unassessed_edit_effort": {"type": "integer", "minimum": 0}, "unobserved_reuse": {"type": "integer", "minimum": 0}}
+    },
+    "small_group_suppression_threshold": {"type": "integer", "minimum": 1}
+  }
+}

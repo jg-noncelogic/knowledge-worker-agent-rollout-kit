@@ -1,1 +1,1 @@
-run_id,started_at,workflow,rung,reviewer,useful_output,edit_minutes,cycle_minutes,unsupported_claims,reversal,voluntary_reuse,stop_rule_breached,notes
+run_id,started_at,workflow,rung,reviewer,useful_output,measurement_mode,edit_minutes,edit_minutes_bucket,cycle_minutes,unsupported_claims,reversal,voluntary_reuse,stop_rule_breached,notes

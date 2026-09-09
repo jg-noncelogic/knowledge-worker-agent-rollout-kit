@@ -1,0 +1,13 @@
+{
+  "from": "",
+  "through_exclusive": "",
+  "workflow": "",
+  "eligible_opportunities": 0,
+  "attempted_runs": 0,
+  "assessed_usefulness_runs": 0,
+  "usefulness": {"accepted": 0, "edited": 0, "rejected": 0},
+  "edit_effort": {"mode": "unassessed", "assessed_runs": 0, "distribution": {}},
+  "reuse": {"eligible_followups": 0, "reused": 0, "declined": 0, "unobserved": 0},
+  "missingness": {"pending_reviews": 0, "unassessed_edit_effort": 0, "unobserved_reuse": 0},
+  "small_group_suppression_threshold": 5
+}

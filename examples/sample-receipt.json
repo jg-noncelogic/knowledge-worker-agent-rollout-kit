@@ -12,8 +12,11 @@
   "outcome": "completed",
   "review": {
     "status": "edited",
-    "reviewer": "workflow-owner",
-    "edit_minutes": 4.5,
+    "reviewer": null,
+    "measurement_mode": "rounded",
+    "edit_minutes": 5,
+    "edit_minutes_bucket": null,
+    "voluntary_reuse": null,
     "unsupported_claims": 0,
     "reversal": false,
     "notes": "Reordered two sections; facts were supported."
