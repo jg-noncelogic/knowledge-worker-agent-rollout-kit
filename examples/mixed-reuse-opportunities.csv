@@ -1,0 +1,5 @@
+opportunity_id,eligible_at,workflow,reviewer_cohort,decision,run_id
+reuse-001,2026-09-09T09:00:00Z,weekly-project-brief,cohort-a,reused,run-005
+reuse-002,2026-09-11T09:00:00Z,weekly-project-brief,cohort-b,declined,
+reuse-003,2026-09-13T09:00:00Z,weekly-project-brief,cohort-a,unobserved,
+reuse-004,2026-09-20T09:00:00Z,weekly-project-brief,cohort-b,unobserved,

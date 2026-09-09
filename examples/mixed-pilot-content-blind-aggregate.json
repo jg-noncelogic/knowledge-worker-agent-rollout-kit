@@ -1,0 +1,13 @@
+{
+  "from": "2026-09-01T00:00:00Z",
+  "through_exclusive": "2026-10-01T00:00:00Z",
+  "workflow": "weekly-project-brief",
+  "eligible_opportunities": 8,
+  "attempted_runs": 6,
+  "assessed_usefulness_runs": 5,
+  "usefulness": {"accepted": 2, "edited": 2, "rejected": 1},
+  "edit_effort": {"mode": "bucketed", "assessed_runs": 4, "distribution": {"0": 1, "1-5": 2, "6-15": 1, "16-30": 0, "31+": 0}},
+  "reuse": {"eligible_followups": 4, "reused": 1, "declined": 1, "unobserved": 2},
+  "missingness": {"pending_reviews": 1, "unassessed_edit_effort": 2, "unobserved_reuse": 2},
+  "small_group_suppression_threshold": 5
+}

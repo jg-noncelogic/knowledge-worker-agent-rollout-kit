@@ -1,0 +1,7 @@
+run_id,started_at,workflow,rung,reviewer_cohort,review_status,measurement_mode,edit_minutes,edit_minutes_bucket,cycle_minutes,unsupported_claims,reversal,voluntary_reuse,stop_rule_breached,notes
+run-001,2026-09-01T09:01:00Z,weekly-project-brief,1,cohort-a,accepted,bucketed,,0,8,0,false,,false,
+run-002,2026-09-03T09:02:00Z,weekly-project-brief,1,cohort-a,edited,bucketed,,1-5,11,0,false,,false,
+run-003,2026-09-05T09:01:00Z,weekly-project-brief,1,cohort-b,rejected,bucketed,,6-15,18,1,false,,false,
+run-004,2026-09-08T09:03:00Z,weekly-project-brief,1,cohort-b,edited,bucketed,,1-5,10,0,false,,false,
+run-005,2026-09-10T09:01:00Z,weekly-project-brief,1,cohort-a,accepted,unassessed,,,9,0,false,,false,
+run-006,2026-09-12T09:02:00Z,weekly-project-brief,1,cohort-b,pending,bucketed,,,,0,false,,false,

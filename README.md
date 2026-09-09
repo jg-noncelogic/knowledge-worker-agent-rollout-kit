@@ -42,9 +42,13 @@ The thresholds are starting hypotheses, not universal benchmarks. Change them be
 
 ## Measure usefulness
 
-Track these per run in [`templates/pilot-scorecard.csv`](templates/pilot-scorecard.csv):
+Register one content-minimal row per eligible trigger or invitation in [`templates/pilot-opportunities.csv`](templates/pilot-opportunities.csv), whether or not a run follows. `opportunity_id` is a pilot-local opaque key. This ledger supplies `eligible_opportunities`.
 
-- **useful output:** reviewer would use the result after normal editing;
+Each eligible opportunity contributes at most one scored pilot run. For each attempted opportunity, add one row to [`templates/pilot-scorecard.csv`](templates/pilot-scorecard.csv) and set `review_status` to `accepted`, `edited`, `rejected`, or `pending`. Operational retries may have their own machine-readable receipts, but do not count as additional attempted pilot runs. The first three statuses map directly to the aggregate usefulness counts; `pending` maps to `missingness.pending_reviews`. Use a bounded cohort label or blank value in `reviewer_cohort`, not a stable person identifier.
+
+Track these measures on attempted rows:
+
+- **review status:** `accepted` as delivered, `edited` into usable form, `rejected`, or still `pending`; useful-output rate counts `accepted` plus `edited`;
 - **edit minutes:** active time to make the output usable;
 - **cycle minutes:** elapsed workflow time;
 - **unsupported claims:** statements lacking an approved source;
@@ -57,7 +61,7 @@ Primary success signal: median edit minutes improve against the baseline while u
 
 Use the least detailed measurement that can answer the pilot decision. A content-blind rollout does not need prompts, outputs, reviewer notes, or a stable person identifier in its aggregate report.
 
-Choose one `measurement_mode` before the pilot:
+Choose one preferred `measurement_mode` before the pilot. If effort for a completed run was not collected reliably, mark that row `unassessed` rather than inventing a value; the aggregate keeps the preferred assessed mode and counts that row in `missingness.unassessed_edit_effort`. A pending review may retain the preferred mode with blank effort fields.
 
 | Mode | Store per run | Use when |
 |---|---|---|
@@ -66,11 +70,11 @@ Choose one `measurement_mode` before the pilot:
 | `bucketed` | one of `0`, `1-5`, `6-15`, `16-30`, `31+` | Only the effort band is needed; report distributions, not a median |
 | `unassessed` | `null` | Collection would be unreliable or too sensitive |
 
-For voluntary reuse, store `true`, `false`, or `null`. A run receipt alone cannot show that someone declined to reuse the workflow. Register each eligible follow-up in [`templates/reuse-opportunities.csv`](templates/reuse-opportunities.csv): `reused` links to a new run, `declined` records an observed choice not to run it, and `unobserved` preserves missingness. Use a bounded cohort label or leave it blank instead of exporting a stable person identifier.
+For voluntary reuse, store `true`, `false`, or `null` on the detailed run only if useful locally. The reuse-opportunity ledger is the source of truth for the aggregate because a run receipt cannot show a decline. Register each eligible follow-up in [`templates/reuse-opportunities.csv`](templates/reuse-opportunities.csv): `reused` links to a new run, `declined` records an observed choice not to run it, and `unobserved` means eligibility was known but no reuse-or-decline decision was observed by the cutoff. Use a bounded cohort label or leave it blank instead of exporting a stable person identifier.
 
 Keep the detailed run receipt under the team's normal access and retention controls. Publish only a bounded aggregate with the observation window, eligible-opportunity denominator, attempted-run denominator, assessed-run denominator, useful-output counts, edit-effort distribution, reuse counts, and explicit missingness. Suppress small groups according to the team's privacy policy. [`templates/content-blind-aggregate.json`](templates/content-blind-aggregate.json) structurally excludes run IDs, timestamps, reviewer identity, file paths, and notes; validate a populated copy with `python3 scripts/validate_aggregate.py FILE.json`. The sample aggregate shows the required count reconciliations.
 
-`edit_minutes` measures human reviewer effort. It is not model, energy, infrastructure, or total economic cost. Keep those claims unknown until separately measured and calibrated.
+`edit_minutes` measures human reviewer effort. It is not model, energy, infrastructure, or total economic cost. Keep those claims unknown until separately measured and calibrated. The explicitly synthetic, non-evidentiary fixtures in [`examples/mixed-pilot-opportunities.csv`](examples/mixed-pilot-opportunities.csv), [`examples/mixed-pilot-scorecard.csv`](examples/mixed-pilot-scorecard.csv), [`examples/mixed-reuse-opportunities.csv`](examples/mixed-reuse-opportunities.csv), and [`examples/mixed-pilot-content-blind-aggregate.json`](examples/mixed-pilot-content-blind-aggregate.json) show one reconciled measurement window with unattempted, pending, unassessed-effort, reused, declined, and unobserved cases. They are not a pilot result or an adoption claim.
 
 ## Stop rules
 
