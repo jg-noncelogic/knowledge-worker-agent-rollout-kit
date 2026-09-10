@@ -89,6 +89,19 @@ Stop or step down a rung when any of these occurs:
 
 A retirement decision is useful evidence. It prevents a weak workflow from becoming infrastructure.
 
+## Turn the aggregate into an evidence card
+
+Once the observation window closes, validate the aggregate and render a short evidence card:
+
+```bash
+python3 scripts/validate_aggregate.py examples/mixed-pilot-content-blind-aggregate.json
+python3 scripts/summarize_aggregate.py examples/mixed-pilot-content-blind-aggregate.json
+```
+
+The card keeps the denominators visible, reports the edit-effort distribution and missing-data gaps, and suppresses reuse rates when the observed group is below the aggregate's small-group threshold. It deliberately does **not** choose a decision for you: compare the observations with the baseline and thresholds declared before the pilot, then record exactly one of `expand`, `revise`, `retire`, or `format-test`.
+
+This prevents three common mistakes: treating attempted runs as all eligible opportunities, treating pending reviews as failures, and publishing a percentage for a group that should have been suppressed.
+
 ## Machine-readable run receipts
 
 Validate the included example:
